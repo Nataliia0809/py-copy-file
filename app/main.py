@@ -2,21 +2,24 @@ import os
 
 
 def copy_file(command: str) -> None:
-    parts = command.split()
+    command_parts = command.split()
 
-    if len(parts) != 3 or parts[0] != "cp":
+    if len(command_parts) != 3 or command_parts[0] != "cp":
+        print("Error: Invalid command. Use format: cp <source> <destination>")
         return
 
-    src_file = parts[1]
-    dest_file = parts[2]
+    source_file_path = command_parts[1]
+    destination_file_path = command_parts[2]
 
-    if src_file == dest_file:
+    if source_file_path == destination_file_path:
+        print("Error: Source and destination files cannot be the same.")
         return
 
-    if not os.path.exists(src_file):
-        print(f"Error: '{src_file}' does not exist.")
+    if not os.path.exists(source_file_path):
+        print(f"Error: '{source_file_path}' does not exist.")
         return
 
-    with open(src_file, "r") as file_in, open(dest_file, "w") as file_out:
-        content = file_in.read()
-        file_out.write(content)
+    with (open(source_file_path, "r") as source_file,
+          open(destination_file_path, "w") as destination_file):
+        content = source_file.read()
+        destination_file.write(content)
